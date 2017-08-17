@@ -8,10 +8,11 @@ class Task {
 }
 
 export default class TaskTile extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            tasks: this.getTasks()
+            tasks: this.getTasks(),
+            newTaskTitle: ''
         };
     }
 
@@ -20,6 +21,32 @@ export default class TaskTile extends Component {
         return Array(Math.floor(Math.random()*10) + 1).fill(null).map(function (task, i) {
             return new Task(i, 'Task #' + i);
         })
+    }
+
+    addTask(task) {
+        // Send request to API
+
+        return true;
+    }
+
+    onFormSubmit(e) {
+        e.preventDefault();
+        if (!this.state.newTaskTitle) {
+            return;
+        }
+        const task = new Task(this.state.tasks.length+1, this.state.newTaskTitle);
+        if ( this.addTask(task) ) {
+            this.setState({
+                tasks: this.state.tasks.concat(task),
+                newTaskTitle: ''
+            });
+        }
+    }
+
+    onInputChange(e) {
+        this.setState({
+            newTaskTitle: e.target.value
+        });
     }
 
     render() {
@@ -33,9 +60,12 @@ export default class TaskTile extends Component {
                 <ul>
                     {tasksHtml}
                 </ul>
-                <input type="text" placeholder="Add task"/>
-                <button>+</button>
+                <form onSubmit={(e) => {this.onFormSubmit(e)}}>
+                    <input type="text" placeholder="Add task" onChange={(e) => {this.onInputChange(e)}} value={this.state.newTaskTitle}/>
+                    <button>+</button>
+                </form>
             </div>
         )
     }
 }
+
