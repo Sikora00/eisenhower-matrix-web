@@ -1,0 +1,17 @@
+.task-tile {
+  .task-completed {
+    .quick-edit-input {
+      position: relative;
+      &:after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        right: 0;
+        transform: translateY(-50%);
+        height: 2px;
+        background: #000;
+      }
+    }
+  }
+}

@@ -5,6 +5,11 @@ class Task {
     constructor(id, title) {
         this.id = id;
         this.title = title;
+        this.isCompleted = false;
+    }
+
+    toggleComplete() {
+        this.isCompleted = !this.isCompleted;
     }
 }
 
@@ -19,7 +24,7 @@ export default class TaskTile extends Component {
 
     getTasks() {
         // For now it is implemented to generate random tasks
-        return Array(Math.floor(Math.random()*10) + 1).fill(null).map(function (task, i) {
+        return Array(Math.floor(Math.random()*5) + 1).fill(null).map(function (task, i) {
             return new Task(i, 'Task #' + i);
         })
     }
@@ -78,13 +83,22 @@ export default class TaskTile extends Component {
         return this.updateTask(task);
     }
 
+    onClickCompleteTaskBtn(task) {
+        task.toggleComplete();
+        if (this.updateTask(task)) {
+            this.setState({
+                tasks: this.state.tasks
+            });
+        }
+    }
+
     render() {
         const _this = this;
         const tasksHtml = this.state.tasks.map(function (task) {
             return (
-                <li key={task.id}>
+                <li key={task.id} className={task.isCompleted ? 'task-completed' : ''}>
+                    <button onClick={() => _this.onClickCompleteTaskBtn(task)}>v</button>
                     <QuickEditInput value={task.title} saveValue={(taskTitle) => {return _this.onTaskInputBlur(taskTitle, task)}} />
-                    {task.title}
                     <button onClick={() => _this.onClickDeleteBtn(task)}>x</button>
                 </li>
             )
