@@ -1,7 +1,8 @@
 @import "../../../node_modules/css-reset-and-normalize-sass/scss/reset-and-normalize";
+@import "../../../node_modules/waffle-grid/src/waffle-grid";
 
-@import "variables";
-@import "utils";
+@import "variables.scss";
+@import "utils.scss";
 
 // Components
-@import "components/App";
+@import "components/App.scss";
