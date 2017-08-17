@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import QuickEditInput from "./QuickEditInput";
 
 class Task {
     constructor(id, title) {
@@ -35,6 +36,12 @@ export default class TaskTile extends Component {
         return true;
     }
 
+    updateTask(task) {
+        // Send request to API
+
+        return true;
+    }
+
     onFormSubmit(e) {
         e.preventDefault();
         if (!this.state.newTaskTitle) {
@@ -49,7 +56,7 @@ export default class TaskTile extends Component {
         }
     }
 
-    onInputChange(e) {
+    onNewTaskInputChange(e) {
         this.setState({
             newTaskTitle: e.target.value
         });
@@ -65,11 +72,18 @@ export default class TaskTile extends Component {
         }
     }
 
+    onTaskInputBlur(taskTitle, task) {
+        task.titile = taskTitle;
+
+        return this.updateTask(task);
+    }
+
     render() {
         const _this = this;
         const tasksHtml = this.state.tasks.map(function (task) {
             return (
                 <li key={task.id}>
+                    <QuickEditInput value={task.title} saveValue={(taskTitle) => {return _this.onTaskInputBlur(taskTitle, task)}} />
                     {task.title}
                     <button onClick={() => _this.onClickDeleteBtn(task)}>x</button>
                 </li>
@@ -83,7 +97,7 @@ export default class TaskTile extends Component {
                     {tasksHtml}
                 </ul>
                 <form onSubmit={(e) => {this.onFormSubmit(e)}}>
-                    <input type="text" placeholder="Add task" onChange={(e) => {this.onInputChange(e)}} value={this.state.newTaskTitle}/>
+                    <input type="text" placeholder="Add task" onChange={(e) => {this.onNewTaskInputChange(e)}} value={this.state.newTaskTitle}/>
                     <button>+</button>
                 </form>
             </div>
