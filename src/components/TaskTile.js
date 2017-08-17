@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import QuickEditInput from "./QuickEditInput";
+import TaskItem from "./TaskItem";
 
 class Task {
     constructor(id, title) {
@@ -96,11 +96,7 @@ export default class TaskTile extends Component {
         const _this = this;
         const tasksHtml = this.state.tasks.map(function (task) {
             return (
-                <li key={task.id} className={task.isCompleted ? 'task-completed' : ''}>
-                    <button onClick={() => _this.onClickCompleteTaskBtn(task)}>v</button>
-                    <QuickEditInput value={task.title} saveValue={(taskTitle) => {return _this.onTaskInputBlur(taskTitle, task)}} />
-                    <button onClick={() => _this.onClickDeleteBtn(task)}>x</button>
-                </li>
+                <TaskItem key={task.id} task={task} onClickCompleteTaskBtn={(t) => _this.onClickCompleteTaskBtn(t)} onTaskInputBlur={(taskTitle, t) => {return _this.onTaskInputBlur(taskTitle, t)}} onClickDeleteBtn={(t) => _this.onClickDeleteBtn(t)}/>
             )
         });
 
