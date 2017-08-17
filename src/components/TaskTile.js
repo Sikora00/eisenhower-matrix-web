@@ -29,6 +29,12 @@ export default class TaskTile extends Component {
         return true;
     }
 
+    deleteTask(task) {
+        // Send request to API
+
+        return true;
+    }
+
     onFormSubmit(e) {
         e.preventDefault();
         if (!this.state.newTaskTitle) {
@@ -49,9 +55,25 @@ export default class TaskTile extends Component {
         });
     }
 
+    onClickDeleteBtn(task) {
+        if (this.deleteTask(task)) {
+            this.setState({
+                tasks: this.state.tasks.filter(function (taskItem) {
+                    return taskItem.id !== task.id;
+                })
+            });
+        }
+    }
+
     render() {
+        const _this = this;
         const tasksHtml = this.state.tasks.map(function (task) {
-            return <li key={task.id}>{task.title}</li>
+            return (
+                <li key={task.id}>
+                    {task.title}
+                    <button onClick={() => _this.onClickDeleteBtn(task)}>x</button>
+                </li>
+            )
         });
 
         return (
